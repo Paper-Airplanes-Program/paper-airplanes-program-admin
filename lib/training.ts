@@ -42,7 +42,14 @@ export type ReadBlock = {
   optional?: boolean;
 };
 
-export type WatchBlock = { kind: "watch"; id: string; title: Msg; note?: Msg; src?: string };
+export type WatchBlock = {
+  kind: "watch";
+  id: string;
+  title: Msg;
+  note?: Msg;
+  src?: string;
+  optional?: boolean;
+};
 
 export type QuizBlock = {
   kind: "quiz";
@@ -86,7 +93,6 @@ export type Block =
   | ExamBlock
   | AgreementBlock;
 
-/** The blocks a trainee has to clear before a unit counts as finished. */
 export type TrackedBlock = ReadBlock | WatchBlock | QuizBlock | ExamBlock | AgreementBlock;
 
 export type Section = { id: string; title?: Msg; blocks: Block[] };
@@ -427,7 +433,7 @@ const unitBeingAStudent: Unit = {
         {
           kind: "watch",
           id: "u2-policies-video",
-          src: "/videos/pa-policies-overview.mp4",
+          src: "https://drive.google.com/file/d/1N4dlZyuwX8yYLfLYxraif3h1BW6Hr9ki/view",
           title: "course.being-a-student.29",
           note: "course.being-a-student.30",
         },
@@ -526,7 +532,7 @@ const unitBeingAStudent: Unit = {
         {
           kind: "watch",
           id: "u2-plagiarism-video",
-          src: "/videos/plagiarism-and-ai.mp4",
+          src: "https://drive.google.com/file/d/1mjQ_SDtGWT1nu5kdeYmvXNEAKHmysAMl/view",
           title: "course.being-a-student.54",
           note: "course.being-a-student.55",
         },
@@ -636,16 +642,31 @@ const unitTechnology: Unit = {
             {
               label: "course.technology.13",
               note: "course.technology.14",
-            },
-            {
-              label: "course.technology.15",
-            },
-            { label: "course.technology.16" },
-            {
-              label: "course.technology.17",
-              note: "course.technology.18",
+              href: "https://www.timeanddate.com/worldclock/converter.html",
             },
           ],
+        },
+        {
+          kind: "watch",
+          id: "u3-meet-video",
+          optional: true,
+          src: "https://www.youtube.com/watch?v=7KVZvUxQXMA",
+          title: "course.technology.15",
+        },
+        {
+          kind: "watch",
+          id: "u3-zoom-video",
+          optional: true,
+          src: "https://www.youtube.com/watch?v=fMUxzrgZvZQ",
+          title: "course.technology.16",
+        },
+        {
+          kind: "watch",
+          id: "u3-gmail-star-video",
+          optional: true,
+          src: "https://www.youtube.com/watch?v=mbAi86-cSXw",
+          title: "course.technology.17",
+          note: "course.technology.18",
         },
       ],
     },
@@ -675,12 +696,14 @@ const unitTechnology: Unit = {
         {
           kind: "watch",
           id: "u3-gmail-video",
+          src: "https://drive.google.com/file/d/1_CFefjYiZykEShDoL4-VILAtpSPoVyv1/view",
           title: "course.technology.25",
           note: "course.technology.26",
         },
         {
           kind: "watch",
           id: "u3-drive-video",
+          src: "https://drive.google.com/file/d/1dhcSCpzoIc-MhOX6uHzT0_uLxePojVjP/view",
           title: "course.technology.27",
           note: "course.technology.28",
         },
@@ -713,18 +736,21 @@ const unitCrossCultural: Unit = {
         {
           kind: "watch",
           id: "u4-part-1",
+          src: "https://drive.google.com/file/d/1mzoefC8jubHqRA-7-e07PKqvapPFf946/view",
           title: "course.cross-cultural.6",
           note: "course.cross-cultural.7",
         },
         {
           kind: "watch",
           id: "u4-part-2",
+          src: "https://drive.google.com/file/d/1t4EcTidodhJx_GLNtg_91QuiOtRyIzOt/view",
           title: "course.cross-cultural.8",
           note: "course.cross-cultural.9",
         },
         {
           kind: "watch",
           id: "u4-sample-lesson",
+          src: "https://drive.google.com/file/d/1ffoL8mSPdWronS851ST5AA9sSIS39KIH/view",
           title: "course.cross-cultural.10",
           note: "course.cross-cultural.11",
         },
@@ -767,6 +793,7 @@ const unitEnglishProgramme: Unit = {
         {
           kind: "watch",
           id: "u5-attendance-video",
+          src: "https://drive.google.com/file/d/1ih7fw9knk1bfE6UMw0z1xf4Gsf-pJffn/view",
           title: "course.english-programme.9",
           note: "course.english-programme.10",
         },
@@ -917,7 +944,7 @@ export function requiredBlocks(unit: Unit) {
     .filter(
       (block) =>
         (block.kind === "read" && !block.optional) ||
-        (block.kind === "watch" && !!block.src) ||
+        (block.kind === "watch" && !!block.src && !block.optional) ||
         block.kind === "quiz" ||
         block.kind === "exam" ||
         block.kind === "agreement",

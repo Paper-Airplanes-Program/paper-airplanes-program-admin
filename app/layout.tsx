@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     template: "%s · Paper Airplanes",
   },
   description:
-    "Student-teacher pairs, matching, the waiting list, programme impact reporting and bilingual announcements.",
+    "Attendance and bilingual announcements.",
   applicationName: "Paper Airplanes Admin Portal",
   openGraph: {
     title: "Admin Portal — Paper Airplanes",
     description:
-      "Pairs, matching, waiting list, impact and announcements for programme facilitators.",
+      "Attendance and announcements for programme facilitators.",
     url: "/",
     siteName: "Paper Airplanes",
     type: "website",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Admin Portal — Paper Airplanes",
-    description: "Pairs, matching, waiting list, impact and announcements.",
+    description: "Attendance and announcements.",
   },
   robots: { index: false, follow: false },
 };

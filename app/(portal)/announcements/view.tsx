@@ -12,7 +12,7 @@ import type { AnnouncementSent, AnnouncementTemplate } from "@/lib/types";
 import { adminNav } from "@/lib/nav";
 import { formatInTz } from "@/lib/time";
 
-const AUDIENCES = ["students", "tutors", "waitlist", "at_risk"];
+const AUDIENCES = ["students", "tutors", "at_risk"];
 
 export function AnnouncementsView() {
   const { t, tv, locale } = useI18n();
@@ -23,6 +23,7 @@ export function AnnouncementsView() {
   const [subjectAr, setSubjectAr] = useState("");
   const [bodyEn, setBodyEn] = useState("");
   const [bodyAr, setBodyAr] = useState("");
+  const [busy, setBusy] = useState(false);
   const { data, refresh } = useApi<{
     templates: AnnouncementTemplate[];
     history: AnnouncementSent[];
@@ -108,15 +109,26 @@ export function AnnouncementsView() {
 
           <Button
             className="self-start"
-            disabled={!subjectEn.trim() && !subjectAr.trim()}
+            disabled={busy || (!subjectEn.trim() && !subjectAr.trim())}
             onClick={async () => {
-              await send("/api/announcements", "POST", {
-                subject: { en: subjectEn, ar: subjectAr },
-                audience,
-                recipients: audience === "tutors" ? 41 : 63,
-              });
-              refresh();
-              toast.success(t("comms.sent"));
+              setBusy(true);
+              try {
+                await send("/api/announcements", "POST", {
+                  subject: { en: subjectEn, ar: subjectAr },
+                  body: { en: bodyEn, ar: bodyAr },
+                  audience,
+                });
+                setSubjectEn("");
+                setSubjectAr("");
+                setBodyEn("");
+                setBodyAr("");
+                refresh();
+                toast.success(t("comms.sent"));
+              } catch (cause) {
+                toast.info((cause as Error).message);
+              } finally {
+                setBusy(false);
+              }
             }}
           >
             <Send className="h-4 w-4" />
@@ -135,7 +147,7 @@ export function AnnouncementsView() {
                   {tv(announcement.subject)}
                 </p>
                 <p className="truncate text-[11.5px] text-fg-subtle">
-                  {announcement.audience} · {announcement.recipients} ·{" "}
+                  {t(`comms.audience${announcement.audience}`)} · {announcement.recipients} ·{" "}
                   {formatInTz(announcement.sentUtc, "UTC", locale, {
                     day: "numeric",
                     month: "short",

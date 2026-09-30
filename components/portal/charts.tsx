@@ -42,38 +42,6 @@ export function BarChart({
   );
 }
 
-export function BarList({
-  data,
-  accent = "var(--accent-cool)",
-}: {
-  data: { label: string; value: number }[];
-  accent?: string;
-}) {
-  const max = Math.max(...data.map((d) => d.value), 1);
-
-  return (
-    <ul className="flex flex-col gap-3">
-      {data.map((d) => (
-        <li key={d.label} className="grid grid-cols-[7rem_minmax(0,1fr)_2.5rem] items-center gap-3">
-          <span className="truncate text-[13px] font-semibold text-fg">{d.label}</span>
-          <span className="h-2.5 overflow-hidden rounded-full bg-tint-2">
-            <span
-              className="block h-full rounded-full transition-[width] duration-700 ease-[var(--ease-out-expo)]"
-              style={{
-                width: `${(d.value / max) * 100}%`,
-                background: `linear-gradient(90deg, color-mix(in oklab, ${accent} 45%, transparent), ${accent})`,
-              }}
-            />
-          </span>
-          <span className="text-end text-[13px] font-bold text-fg-muted tabular-nums">
-            {d.value}
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 const W = 640;
 const H = 190;
 const PAD = 14;

@@ -5,7 +5,7 @@ import { SignInView } from "./sign-in-view";
 export const metadata: Metadata = {
   title: "Sign in",
   description:
-    "Sign in to the Paper Airplanes admin portal to manage pairs, matching, the waiting list and announcements.",
+    "Sign in to the Paper Airplanes admin portal to manage attendance and announcements.",
 };
 
 export default function SignInPage() {
